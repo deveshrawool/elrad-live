@@ -6,6 +6,7 @@ const DataListContainer = styled.div`
   width: 100%;
   overflow: auto;
   white-space: nowrap;
+  margin: 10px 0;
 `;
 const DataContainer = styled.div`
   font-size: 0.876rem;

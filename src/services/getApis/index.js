@@ -16,3 +16,14 @@ export const getSubjects= ()=>{
     .then((res)=>res.data)
     .catch((error)=> error)
 }
+export const getEthicalCodeRatings = ()=>{
+    return AxiosInstance.get("RatingsEthicalCodeResponse.json")
+    .then((res)=>res.data)
+    .catch((error)=> error)
+}
+
+export const getVirtuallyMetRatings = ()=>{
+    return AxiosInstance.get("RatingsVirtuallyMetResponse.json")
+    .then((res)=>res.data)
+    .catch((error)=> error)
+}

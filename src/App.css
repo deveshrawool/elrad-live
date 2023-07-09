@@ -1,0 +1,6 @@
+.mantine-Paper-root{
+    max-width: 385px;
+}
+.mantine-Drawer-inner{
+    z-index: 200;
+}

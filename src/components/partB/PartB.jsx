@@ -1,5 +1,12 @@
 import styled from "@emotion/styled";
-import { Button, Divider, MultiSelect, Title } from "@mantine/core";
+import {
+  Button,
+  Divider,
+  Drawer,
+  MultiSelect,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import React, { useEffect, useState } from "react";
 import {
@@ -13,18 +20,19 @@ import SelectedDataDisplay from "./SelectedDataDisplay";
 const PartBContainer = styled.div`
   display: block;
   width: 100%;
-  height: 300px;
+  height: fit-content;
+  margin: 20px 0;
 `;
 
 const NoSkillsFound = styled.div`
   display: flex;
   justify-content: center;
   font-size: 0.8rem;
-  color: "#6E6E6E";
+  color: "#808080";
 `;
 
 const MarginWrapper = styled.div`
-  margin: 15px 0;
+  margin: 20px 0;
   width: 100%;
 `;
 
@@ -86,113 +94,115 @@ function PartB() {
   };
   return (
     <PartBContainer>
-      {editMode ? (
+      <Drawer
+        opened={editMode}
+        onClose={() => setEditMode(false)}
+        position="right"
+        size={"lg"}
+        withCloseButton={false}
+      >
+        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+          <Title
+            size={"h6"}
+            onClick={() => setEditMode(false)}
+          >{`<   Skills`}</Title>
+          <MarginWrapper>
+            <MultiSelect
+              data={allSkills}
+              label="Your professional sills"
+              placeholder="Pick skills"
+              searchable
+              nothingFound="Nothing found"
+              onChange={(values) => console.log(values)}
+              {...form.getInputProps("skills")}
+              styles={{
+                value: {
+                  backgroundColor: "rgba(0, 0, 255, 0.5)",
+                  color: "#fff",
+                  borderRadius: "10px",
+                },
+              }}
+            />
+          </MarginWrapper>
+          <MarginWrapper>
+            <MultiSelect
+              data={allHobbies}
+              label="Your hobbies"
+              placeholder="Pick hobbies"
+              searchable
+              nothingFound="Nothing found"
+              {...form.getInputProps("hobbies")}
+              styles={{
+                value: {
+                  backgroundColor: "rgba(0, 0, 255, 0.5)",
+                  color: "#fff",
+                  borderRadius: "10px",
+                },
+              }}
+            />
+          </MarginWrapper>
+          <MarginWrapper>
+            <MultiSelect
+              data={allSubjects}
+              label="Your favorite subjects"
+              placeholder="Pick subjects"
+              searchable
+              nothingFound="Nothing found"
+              {...form.getInputProps("subjects")}
+              styles={{
+                value: {
+                  backgroundColor: "rgba(0, 0, 255, 0.5)",
+                  color: "#fff",
+                  borderRadius: "10px",
+                },
+              }}
+            />
+          </MarginWrapper>
+          <Button
+            style={{ margin: "20px 0px", width: "100%" }}
+            type="submit"
+            variant="filled"
+            color="red"
+          >
+            Save
+          </Button>
+        </form>
+      </Drawer>
+      <CustomTitleWithEdit
+        title={"Skills"}
+        editIconClick={() => setEditMode(true)}
+      />
+      {selectedSkills.length > 0 ||
+      selectedHobbies.length > 0 ||
+      selectedSubjects.length > 0 ? (
         <>
-          <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-            <Title
-              size={"h6"}
-              onClick={() => setEditMode(false)}
-            >{`<   Skills`}</Title>
+          {selectedSkills.length > 0 && (
             <MarginWrapper>
-              <MultiSelect
-                data={allSkills}
-                label="Your professional sills"
-                placeholder="Pick skills"
-                searchable
-                nothingFound="Nothing found"
-                onChange={(values) => console.log(values)}
-                {...form.getInputProps("skills")}
-                styles={{
-                  value: {
-                    backgroundColor: "rgba(0, 0, 255, 0.5)",
-                    color: "#fff",
-                    borderRadius: "10px",
-                  },
-                }}
-              />
+              <Title size={"h6"}>I am incredible at this skills</Title>
+              <SelectedDataDisplay data={selectedSkills} />
             </MarginWrapper>
+          )}
+          <Divider size="sm" />
+          {selectedHobbies.length > 0 && (
             <MarginWrapper>
-              <MultiSelect
-                data={allHobbies}
-                label="Your hobbies"
-                placeholder="Pick hobbies"
-                searchable
-                nothingFound="Nothing found"
-                {...form.getInputProps("hobbies")}
-                styles={{
-                  value: {
-                    backgroundColor: "rgba(0, 0, 255, 0.5)",
-                    color: "#fff",
-                    borderRadius: "10px",
-                  },
-                }}
-              />
+              <Title size={"h6"}>Hobbies I am passionate about</Title>
+              <SelectedDataDisplay data={selectedHobbies} />
             </MarginWrapper>
+          )}
+          <Divider size="sm" />
+          {selectedSubjects.length > 0 && (
             <MarginWrapper>
-              <MultiSelect
-                data={allSubjects}
-                label="Your favorite subjects"
-                placeholder="Pick subjects"
-                searchable
-                nothingFound="Nothing found"
-                {...form.getInputProps("subjects")}
-                styles={{
-                  value: {
-                    backgroundColor: "rgba(0, 0, 255, 0.5)",
-                    color: "#fff",
-                    borderRadius: "10px",
-                  },
-                }}
-              />
+              <Title size={"h6"}>My favorite subjects are</Title>
+              <SelectedDataDisplay data={selectedSubjects} />
             </MarginWrapper>
-            <Button
-              style={{ margin: "20px 0px", width: "100%" }}
-              type="submit"
-              variant="filled"
-              color="red"
-            >
-              Save
-            </Button>
-          </form>
+          )}
         </>
       ) : (
         <>
-          <CustomTitleWithEdit
-            title={"Skills"}
-            editIconClick={() => setEditMode(true)}
-          />
-          {selectedSkills.length > 0 ||
-          selectedHobbies.length > 0 ||
-          selectedSubjects.length > 0 ? (
-            <>
-              {selectedSkills.length > 0 && (
-                <MarginWrapper>
-                  <Title size={"h6"}>I am incredible at this skills</Title>
-                  <SelectedDataDisplay data={selectedSkills} />
-                </MarginWrapper>
-              )}
-              <Divider size="sm" />
-              {selectedHobbies.length > 0 && (
-                <MarginWrapper>
-                  <Title size={"h6"}>Hobbies I am passionate about</Title>
-                  <SelectedDataDisplay data={selectedHobbies} />
-                </MarginWrapper>
-              )}
-              <Divider size="sm" />
-              {selectedSubjects.length > 0 && (
-                <MarginWrapper>
-                  <Title size={"h6"}>My favorite subjects are</Title>
-                  <SelectedDataDisplay data={selectedSubjects} />
-                </MarginWrapper>
-              )}
-            </>
-          ) : (
-            <NoSkillsFound
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              No Skills found
-            </NoSkillsFound>
-          )}
+          <NoSkillsFound>
+            <Text color="#808080">No Skills found</Text>
+          </NoSkillsFound>
+          <Divider size="sm" />
         </>
       )}
     </PartBContainer>
